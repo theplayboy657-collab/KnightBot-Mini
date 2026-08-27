@@ -1,0 +1,20 @@
+{
+  "services": [
+    {
+      "type": "web",
+      "name": "standard-v1-bot",
+      "runtime": "node",
+      "runtimeVersion": "18.17.0",
+      "buildCommand": "npm install",
+      "startCommand": "node index.js",
+      "plan": "free",
+      "envVars": [
+        {
+          "key": "SESSION_ID",
+          "scope": "runtime",
+          "isFile": false
+        }
+      ]
+    }
+  ]
+}
