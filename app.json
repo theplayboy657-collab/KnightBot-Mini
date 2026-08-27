@@ -1,8 +1,8 @@
 {
-  "name": "Knight Bot MINI",
-  "description": "WhatsApp MD bot (Baileys)",
-  "repository": "",
-  "keywords": ["whatsapp", "baileys", "bot", "node"],
+  "name": "Standard v1",
+  "description": "WhatsApp MD bot - Standard v1 by Kyrox-dev (Baileys)",
+  "repository": "https://github.com/Kyrox-dev/Standard-v1",
+  "keywords": ["whatsapp", "baileys", "bot", "node", "standard", "kyrox"],
   "buildpacks": [
     {
       "url": "https://github.com/heroku/heroku-buildpack-nodejs.git"
@@ -10,10 +10,9 @@
   ],
   "env": {
     "SESSION_ID": {
-      "description": "KnightBot session string (e.g. KnightBot!<base64_compressed_data>)",
+      "description": "Standard v1 session string (e.g. Standard!<base64_compressed_data>)",
       "required": false,
       "value": ""
     }
   }
 }
-

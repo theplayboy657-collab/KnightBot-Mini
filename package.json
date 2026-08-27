@@ -1,7 +1,7 @@
 {
-    "name": "whatsapp-md-bot",
+    "name": "standard-v1-whatsapp-bot",
     "version": "1.0.0",
-    "description": "WhatsApp MD-Style Multi-Command Bot with Baileys",
+    "description": "WhatsApp MD-Style Multi-Command Bot - Standard v1 by Kyrox-dev (Baileys)",
     "main": "index.js",
     "type": "commonjs",
     "scripts": {
@@ -11,12 +11,13 @@
     },
     "keywords": [
         "whatsapp bot",
-        "Knight Bot Mini",
+        "Standard v1",
+        "kyrox-dev",
         "bot",
         "baileys",
         "md"
     ],
-    "author": "Your Name",
+    "author": "Kyrox-dev",
     "license": "MIT",
     "dependencies": {
         "@bochilteam/scraper": "^5.0.1",
