@@ -9,10 +9,10 @@ module.exports = {
     
     // Bot Configuration
     botName: 'Standard v1',
-    prefix: ',',
+    prefix: '.',
     sessionName: 'session',
     sessionID: process.env.SESSION_ID || '',
-    botImageUrl: 'https://files.catbox.moe/mahs97.png', // Bot image URL for menu
+    botImageUrl: 'https://files.catbox.moe/j0d06s.png', // Bot image URL for menu
     newsletterJid: '120363412378075644@newsletter', // Newsletter JID for menu forwarding
     updateZipUrl: 'https://github.com/Kyrox-dev/Standard-v1/archive/refs/heads/main.zip', // URL to latest code zip for .update command
     
