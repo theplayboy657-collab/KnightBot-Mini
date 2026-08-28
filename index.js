@@ -1,6 +1,27 @@
 /**
  * WhatsApp MD Bot - Main Entry Point
  */
+
+// ⭐ LOAD CREDS FROM ENVIRONMENT VARIABLE IF PROVIDED
+const fs = require('fs');
+const path = require('path');
+
+if (process.env.CREDS_JSON) {
+  const sessionPath = path.join(__dirname, 'session');
+  if (!fs.existsSync(sessionPath)) {
+    fs.mkdirSync(sessionPath, { recursive: true });
+  }
+  
+  try {
+    const creds = JSON.parse(process.env.CREDS_JSON);
+    const credsPath = path.join(sessionPath, 'creds.json');
+    fs.writeFileSync(credsPath, JSON.stringify(creds, null, 2));
+    console.log('✅ Session credentials loaded from CREDS_JSON environment variable');
+  } catch (error) {
+    console.error('❌ Error loading CREDS_JSON:', error.message);
+  }
+}
+
 process.env.PUPPETEER_SKIP_DOWNLOAD = 'true';
 process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = 'true';
 process.env.PUPPETEER_CACHE_DIR = process.env.PUPPETEER_CACHE_DIR || '/tmp/puppeteer_cache_disabled';
@@ -63,8 +84,6 @@ const {
 const qrcode = require('qrcode-terminal');
 const config = require('./config');
 const handler = require('./handler');
-const fs = require('fs');
-const path = require('path');
 const zlib = require('zlib');
 const os = require('os');
 
