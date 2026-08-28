@@ -4,6 +4,7 @@
 
 const config = require('../../config');
 const { loadCommands } = require('../../utils/commandLoader');
+const axios = require('axios');
 
 module.exports = {
   name: 'menu',
@@ -149,10 +150,10 @@ module.exports = {
           menuText += `│ ➜ ${config.prefix}${cmd.name}\n`;
         });
         menuText += `\n`;
-      }
+       }
 
        // Textmaker Commands
-       if (categories.utility) {
+       if (categories.textmaker) {
         menuText += `┏━━━━━━━━━━━━━━━━━\n`;
         menuText += `┃ 🖋️ TEXTMAKER COMMAND\n`;
         menuText += `┗━━━━━━━━━━━━━━━━━\n`;
@@ -160,20 +161,18 @@ module.exports = {
           menuText += `│ ➜ ${config.prefix}${cmd.name}\n`;
         });
         menuText += `\n`;
-      }
+       }
       
       menuText += `╰━━━━━━━━━━━━━━━━━\n\n`;
       menuText += `💡 Type ${config.prefix}help <command> for more info\n`;
       menuText += `🌟 Bot Version: 1.0.3\n`;
       
-      // Send menu with image
-      const fs = require('fs');
-      const path = require('path');
-      const imagePath = path.join(__dirname, '../../utils/bot_image.jpg');
-      
-      if (fs.existsSync(imagePath)) {
-        // Send image with newsletter forwarding context
-        const imageBuffer = fs.readFileSync(imagePath);
+      // Send menu with image from URL
+      try {
+        const imageUrl = config.botImageUrl || 'https://files.catbox.moe/mahs97.png';
+        const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+        const imageBuffer = Buffer.from(imageResponse.data);
+        
         await sock.sendMessage(extra.from, {
           image: imageBuffer,
           caption: menuText,
@@ -182,13 +181,14 @@ module.exports = {
             forwardingScore: 1,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-              newsletterJid: config.newsletterJid || '120363161513685998@newsletter',
+              newsletterJid: config.newsletterJid || '120363412378075644@newsletter',
               newsletterName: config.botName,
               serverMessageId: -1
             }
           }
         }, { quoted: msg });
-      } else {
+      } catch (imageError) {
+        console.error('Failed to fetch menu image:', imageError);
         await sock.sendMessage(extra.from, {
           text: menuText,
           mentions: [extra.sender]
