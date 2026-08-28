@@ -78,7 +78,7 @@ module.exports = {
             name: 'cta_url',
             buttonParamsJson: JSON.stringify({
               display_text: 'Join Channel',
-              url: 'https://whatsapp.com/channel/0029Va90zAnIHphOuO8Msp3A'
+              url: 'https://whatsapp.com/channel/120363412378075644@newsletter'
             })
           }
         ]
@@ -90,4 +90,3 @@ module.exports = {
     }
   }
 };
-
