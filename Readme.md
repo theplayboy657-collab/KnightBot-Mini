@@ -1,3 +1,4 @@
+````markdown name=Readme.md url=https://github.com/theplayboy657-collab/KnightBot-Mini/blob/main/Readme.md
 <div align="center">
 
 ## Knight Bot Mini
@@ -6,12 +7,12 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
-<img src="utils/bot_image.jpg" alt="Knight Bot" width="260">
+<img src="https://files.catbox.moe/mahs97.png" alt="Knight Bot" width="260">
 
 </div>
 
 Knight Bot Mini is a WhatsApp MD bot built on top of the **Baileys** library.  
-It’s designed to be fast, lightweight, and easy to customize without touching the core code.  
+It's designed to be fast, lightweight, and easy to customize without touching the core code.  
 This project is **fully open source** — you can modify it, rebrand it, and make your **own bot** from this codebase **free of cost**, without needing any permission from our side.  
 All commands and the overall structure are written in a way that makes customization (bot image, prefix, name, features, etc.) as easy as possible.
 
@@ -140,7 +141,7 @@ When the bot starts:
   <img src="https://img.shields.io/badge/Join-Telegram-0088cc?style=for-the-badge&logo=telegram&logoColor=white" alt="Join Telegram">
 </a>
 
-<a href="https://whatsapp.com/channel/0029Va90zAnIHphOuO8Msp3A" target="_blank">
+<a href="https://whatsapp.com/channel/120363412378075644@newsletter" target="_blank">
   <img src="https://img.shields.io/badge/Join-WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" alt="Join WhatsApp Channel">
 </a>
 
@@ -160,7 +161,7 @@ When the bot starts:
 
 - This bot is created **for educational purposes only**.  
 - This is **NOT** an official WhatsApp bot.  
-- Using third‑party bots **may violate WhatsApp’s Terms of Service** and can lead to your account being **banned**.
+- Using third‑party bots **may violate WhatsApp's Terms of Service** and can lead to your account being **banned**.
 
 > You use this bot **at your own risk**.  
 > The developers are **not responsible** for any bans, issues, or damages resulting from its use.
@@ -199,4 +200,4 @@ This project contains code from various open‑source projects and AI tools, inc
 
 - **Baileys** – MIT License  
 - Other libraries as listed in `package.json`
-
+````
