@@ -49,7 +49,7 @@ module.exports = {
       antibadword: false, // Block bad words in group
       antibadwordAction: 'delete', // 'delete', 'kick', 'warn'
       welcome: false,
-      welcomeMessage: '╭╼━≪•𝙽𝙴𝚆 𝙼𝙴𝙼𝙱𝙴𝚁•≫━╾╮\n┃𝚆𝙴𝙻𝙲𝙾𝙼𝙴: @user 👋\n┃Member count: #memberCount\n┃𝚃𝙸𝙼𝙴: time⏰[...]
+      welcomeMessage: '╭╼━≪•𝙽𝙴𝚆 𝙼𝙴𝙼𝙱𝙴𝚁•≫━╾╮\n┃𝚆𝙴𝙻𝙲𝙾𝙼𝙴: @user 👋\n┃Member count: #memberCount\n┃𝚃𝙸𝙼𝙴: #time\n╰━━━━━━━━━━━━━━━',
       goodbye: false,
       goodbyeMessage: 'Goodbye @user 👋 We will never miss you!',
       antiSpam: false,
