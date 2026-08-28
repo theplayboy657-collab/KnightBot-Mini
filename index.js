@@ -232,30 +232,34 @@ async function startBot() {
   const sessionFolder = `./${config.sessionName}`;
   const sessionFile = path.join(sessionFolder, 'creds.json');
 
-  // Check if sessionID is provided and process KnightBot! format session
-  if (config.sessionID && config.sessionID.startsWith('KnightBot!')) {
+  // Universal session processing (Support all prefixes with ! or ~)
+  if (config.sessionID) {
     try {
-      const [header, b64data] = config.sessionID.split('!');
+      const separator = config.sessionID.includes('!') ? '!' : config.sessionID.includes('~') ? '~' : null;
+      
+      if (separator) {
+        const b64data = config.sessionID.split(separator)[1];
+        if (!b64data) throw new Error("Invalid session format");
 
-      if (header !== 'KnightBot' || !b64data) {
-        throw new Error("❌ Invalid session format. Expected 'KnightBot!.....'");
+        const cleanB64 = b64data.replace('...', '');
+        let decompressedData;
+
+        try {
+          const compressedData = Buffer.from(cleanB64, 'base64');
+          decompressedData = zlib.gunzipSync(compressedData);
+        } catch {
+          decompressedData = Buffer.from(cleanB64, 'base64').toString('utf-8');
+        }
+
+        if (!fs.existsSync(sessionFolder)) {
+          fs.mkdirSync(sessionFolder, { recursive: true });
+        }
+
+        fs.writeFileSync(sessionFile, decompressedData, 'utf8');
+        console.log('📡 Session : 🔑 Retrieved and loaded successfully!');
       }
-
-      const cleanB64 = b64data.replace('...', '');
-      const compressedData = Buffer.from(cleanB64, 'base64');
-      const decompressedData = zlib.gunzipSync(compressedData);
-
-      // Ensure session folder exists
-      if (!fs.existsSync(sessionFolder)) {
-        fs.mkdirSync(sessionFolder, { recursive: true });
-      }
-
-      // Write decompressed session data to creds.json
-      fs.writeFileSync(sessionFile, decompressedData, 'utf8');
-      console.log('📡 Session : 🔑 Retrieved from KnightBot Session');
-
     } catch (e) {
-      console.error('📡 Session : ❌ Error processing KnightBot session:', e.message);
+      console.error('📡 Session : ❌ Error processing session:', e.message);
       // Continue with normal QR flow if session processing fails
     }
   }
