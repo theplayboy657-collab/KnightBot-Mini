@@ -73,6 +73,7 @@ console.warn = (...args) => {
 };
 
 // Now safe to load libraries
+const http = require('http');
 const pino = require('pino');
 const {
   default: makeWASocket,
@@ -86,6 +87,27 @@ const config = require('./config');
 const handler = require('./handler');
 const zlib = require('zlib');
 const os = require('os');
+
+// 🌐 Minimal HTTP server for Render port detection
+const PORT = process.env.PORT || 3000;
+const httpServer = http.createServer((req, res) => {
+  if (req.url === '/' || req.url === '/health') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ 
+      status: 'Bot is running',
+      bot: config.botName || 'Standard v1',
+      owner: config.ownerName || 'Kyrox-dev'
+    }));
+  } else {
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
+    res.end('404 - Not Found');
+  }
+});
+
+httpServer.listen(PORT, () => {
+  console.log(`🌐 HTTP Server listening on port ${PORT}`);
+  console.log(`📊 Health check: http://localhost:${PORT}/health`);
+});
 
 // Remove Puppeteer cache (if some dependency downloaded Chromium into ~/.cache/puppeteer)
 function cleanupPuppeteerCache() {
@@ -487,7 +509,15 @@ startBot().catch(err => {
   console.error('Error starting bot:', err);
   process.exit(1);
 });
-// Handle process termination
+
+// Handle process termination gracefully
+process.on('SIGTERM', () => {
+  console.log('Shutting down gracefully...');
+  httpServer.close(() => {
+    process.exit(0);
+  });
+});
+
 process.on('uncaughtException', (err) => {
   // Handle ENOSPC errors gracefully without crashing
   if (err.code === 'ENOSPC' || err.errno === -28 || err.message?.includes('no space left on device')) {
@@ -499,6 +529,7 @@ process.on('uncaughtException', (err) => {
   }
   console.error('Uncaught Exception:', err);
 });
+
 process.on('unhandledRejection', (err) => {
   // Handle ENOSPC errors gracefully
   if (err.code === 'ENOSPC' || err.errno === -28 || err.message?.includes('no space left on device')) {
@@ -516,5 +547,7 @@ process.on('unhandledRejection', (err) => {
   }
   console.error('Unhandled Rejection:', err);
 });
+
 // Export store for use in commands
 module.exports = { store };
+  
