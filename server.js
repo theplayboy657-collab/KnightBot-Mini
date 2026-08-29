@@ -1,35 +1,31 @@
-/**
- * Minimal HTTP server for Render port detection
- * This keeps the service alive by listening on a port
- */
-
-const http = require('http');
+const express = require('express');
+const helmet = require('helmet');
+const pairRouter = require('./routes/pair');
+const config = require('./config');
 
 const PORT = process.env.PORT || 3000;
+const app = express();
+app.use(helmet());
+app.use(express.json());
+app.use(express.static('public'));
 
-const server = http.createServer((req, res) => {
-  if (req.url === '/' || req.url === '/health') {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ 
-      status: 'Bot is running',
-      bot: 'Standard v1',
-      owner: 'Kyrox-dev'
-    }));
-  } else {
-    res.writeHead(404, { 'Content-Type': 'text/plain' });
-    res.end('404 - Not Found');
-  }
+// mount pair routes if available
+app.use('/', pairRouter);
+
+app.get('/health', (req, res) => {
+  res.json({ status: 'Bot is running', bot: config.botName, owner: config.ownerName?.[0] || 'owner' });
 });
 
-server.listen(PORT, () => {
+app.get('/', (req, res) => {
+  res.redirect('/health');
+});
+
+app.listen(PORT, () => {
   console.log(`🌐 HTTP Server listening on port ${PORT}`);
   console.log(`📊 Health check: http://localhost:${PORT}/health`);
 });
 
-// Graceful shutdown
 process.on('SIGTERM', () => {
   console.log('Shutting down gracefully...');
-  server.close(() => {
-    process.exit(0);
-  });
+  process.exit(0);
 });

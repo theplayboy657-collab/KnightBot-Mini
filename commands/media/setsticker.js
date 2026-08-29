@@ -1,9 +1,9 @@
 /**
- * Setsticker Command - Rename sticker pack
+ * Setsticker Command - Rename sticker pack (rewrite sticker with new pack name)
  */
 
-const { Sticker, StickerTypes } = require("wa-sticker-formatter");
-const { downloadMediaMessage } = require("@whiskeysockets/baileys");
+const { downloadMediaMessage } = require('@whiskeysockets/baileys');
+const { createStickerBuffer } = require('../../utils/sticker');
 
 module.exports = {
   name: 'setsticker',
@@ -14,62 +14,31 @@ module.exports = {
   
   async execute(sock, msg, args, extra) {
     try {
-      if (args.length === 0) {
-        return extra.reply('📝 Usage: .setsticker <new pack name>\n\nReply to a sticker with this command to rename its pack.');
-      }
-
+      if (args.length === 0) return extra.reply('📝 Usage: .setsticker <new pack name>\n\nReply to a sticker with this command to rename its pack.');
       const newPackName = args.join(' ');
 
-      // Check if message is a reply
       const quotedMessage = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
-      
-      if (!quotedMessage || !quotedMessage.stickerMessage) {
-        return extra.reply('⚠️ Please reply to a sticker with .setsticker <new name>');
-      }
+      if (!quotedMessage || !quotedMessage.stickerMessage) return extra.reply('⚠️ Please reply to a sticker with .setsticker <new name>');
 
       const ctx = msg.message.extendedTextMessage?.contextInfo;
       const chatId = extra.from;
-
-      // Create fake message for media download
-      const fakeMsg = {
-        key: {
-          remoteJid: chatId,
-          id: ctx.stanzaId,
-          participant: ctx.participant,
-        },
-        message: quotedMessage,
-      };
+      const fakeMsg = { key: { remoteJid: chatId, id: ctx.stanzaId, participant: ctx.participant }, message: quotedMessage };
 
       try {
-        // Download the sticker
-        const buffer = await downloadMediaMessage(fakeMsg, "buffer", {});
+        const buffer = await downloadMediaMessage(fakeMsg, 'buffer', {});
+        if (!buffer) return extra.reply('❌ Failed to download sticker.');
 
-        const authorName = 'KnightBot';
+        const stickerBuffer = await createStickerBuffer(buffer, { pack: newPackName, author: 'KYROX-XMD', quality: 80 });
 
-        // Recreate sticker with new pack name
-        const sticker = new Sticker(buffer, {
-          pack: newPackName,
-          author: authorName,
-          type: StickerTypes.FULL,
-          quality: 70,
-        });
-
-        const stickerBuffer = await sticker.toBuffer();
-
-        // Send renamed sticker
-        await sock.sendMessage(chatId, {
-          sticker: stickerBuffer
-        }, { quoted: msg });
-
+        await sock.sendMessage(chatId, { sticker: stickerBuffer }, { quoted: msg });
         await extra.reply(`✅ Sticker pack renamed to "${newPackName}"!`);
-
       } catch (mediaError) {
-        console.error('Setsticker media error:', mediaError);
+        console.error('Setsticker media error:', mediaError && (mediaError.stack || mediaError.message));
         await extra.reply('❌ Failed to rename sticker. Please try again.');
       }
 
     } catch (error) {
-      console.error('setsticker.js error:', error);
+      console.error('setsticker.js error:', error && (error.stack || error.message));
       await extra.reply('❌ An error occurred while processing your request.');
     }
   }

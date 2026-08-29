@@ -8,7 +8,7 @@ module.exports = {
     ownerName: ['Kyrox-dev'], // Owner names corresponding to ownerNumber array
     
     // Bot Configuration
-    botName: 'Standard v1',
+    botName: 'KYROX-XMD',
     prefix: '.',
     sessionName: 'session',
     sessionID: process.env.SESSION_ID || '',
@@ -17,7 +17,7 @@ module.exports = {
     updateZipUrl: 'https://github.com/Kyrox-dev/Standard-v1/archive/refs/heads/main.zip', // URL to latest code zip for .update command
     
     // Sticker Configuration
-    packname: 'Standard v1 - Powered by Kyrox-dev',
+    packname: 'KYROX-XMD - Powered by Kyrox-dev',
     
     // Bot Behavior
     selfMode: false, // Private mode - only owner can use commands
@@ -49,7 +49,7 @@ module.exports = {
       antibadword: false, // Block bad words in group
       antibadwordAction: 'delete', // 'delete', 'kick', 'warn'
       welcome: false,
-      welcomeMessage: '╭╼━≪•𝙽𝙴𝚆 𝙼𝙴𝙼𝙱𝙴𝚁•≫━╾╮\n┃𝚆𝙴𝙻𝙲𝙾𝙼𝙴: @user 👋\n┃Member count: #memberCount\n┃𝚃𝙸𝙼𝙴: #time\n╰━━━━━━━━━━━━━━━',
+      welcomeMessage: '╭╼━≪•𝙽𝙴𝚆 𝙼𝙴𝙼𝙱𝙴𝚁•≫━╾╮\n┃𝚆𝙴𝙻𝙲𝙾𝙼𝙴: @user 👋\n┃Member count: #memberCount\n┃𝚃𝙸𝙼𝙴: #time\n[...]',
       goodbye: false,
       goodbyeMessage: 'Goodbye @user 👋 We will never miss you!',
       antiSpam: false,
